@@ -13,6 +13,10 @@ const deleteAccount = (accountIdToBeDeleted) => {
   console.log("my new accounts are: ", newAccounts);
   return newAccounts;
 };
+const updateAccount = (currentAccount, newData) => {
+  const myUpdatedAccount = Object.assign(currentAccount, newData);
+  return myUpdatedAccount;
+};
 app.use(express.json());
 // Get Method
 app.get("/accounts", (req, res) => {
@@ -29,7 +33,7 @@ app.post("/accounts", (req, res) => {
 //Delete Method
 app.delete("/accounts/:accountId", (req, res) => {
   const { accountId } = req.params;
-  const account = accounts.map((account) => account.id == accountId);
+  const account = accounts.find((account) => account.id == accountId);
   if (account) {
     const deletedAccount = deleteAccount(accountId);
     res.status(204).json();
@@ -41,9 +45,10 @@ app.delete("/accounts/:accountId", (req, res) => {
 //Update Method
 app.put("/accounts/:accountId", (req, res) => {
   const { accountId } = req.params;
-  const account = accounts.map((account) => account.id == accountId);
+  const account = accounts.find((account) => account.id == accountId);
   if (account) {
-    res.status(200).json();
+    const updatedAccount = updateAccount(account, req.body);
+    res.status(200).json(updatedAccount);
   } else {
     res.status(404).end();
   }
