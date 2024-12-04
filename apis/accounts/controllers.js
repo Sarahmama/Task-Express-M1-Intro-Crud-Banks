@@ -1,23 +1,14 @@
-const accounts = require("./accounts");
+const accounts = require("../../accounts");
 
-const createNewAccount = (id, username) => {
-  accounts.push({ id: id, username: username, fund: 0 });
-  return accounts;
-};
-const deleteAccount = (accountIdToBeDeleted) => {
-  const newAccounts = accounts.filter(
-    (account) => account.id != accountIdToBeDeleted
-  );
-  console.log("my new accounts are: ", newAccounts);
-  return newAccounts;
-};
-const updateAccount = (currentAccount, newData) => {
-  const myUpdatedAccount = Object.assign(currentAccount, newData);
-  return myUpdatedAccount;
-};
 // Get Method
 exports.getAllAccount = (req, res) => {
   res.status(200).json(accounts);
+};
+
+//create new account function that used in post method
+const createNewAccount = (id, username) => {
+  accounts.push({ id: id, username: username, fund: 0 });
+  return accounts;
 };
 
 //Post Method
@@ -27,6 +18,16 @@ exports.createAccount = (req, res) => {
 
   res.status(201).json(newAccount);
 };
+
+//delete an account function that used in delete method
+const deleteAccount = (accountIdToBeDeleted) => {
+  const newAccounts = accounts.filter(
+    (account) => account.id != accountIdToBeDeleted
+  );
+  console.log("my new accounts are: ", newAccounts);
+  return newAccounts;
+};
+
 //Delete Method
 exports.deleteAccount = (req, res) => {
   const { accountId } = req.params;
@@ -37,6 +38,12 @@ exports.deleteAccount = (req, res) => {
   } else {
     res.status(404).end();
   }
+};
+
+//update an  existence account function that used in put  method
+const updateAccount = (currentAccount, newData) => {
+  const myUpdatedAccount = Object.assign(currentAccount, newData);
+  return myUpdatedAccount;
 };
 
 //Update Method
